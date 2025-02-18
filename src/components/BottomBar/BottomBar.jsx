@@ -20,6 +20,7 @@ import ScreenSpaceRenderablePanel from './ScreenSpaceRenderablePanel';
 import SessionRec from './SessionRec';
 import SkyBrowserPanel from './SkyBrowserPanel';
 import TimePicker from './TimePicker';
+import VoiceCommandPanel from './VoiceCommandPanel';
 
 import styles from './BottomBar.scss';
 
@@ -57,6 +58,7 @@ export default function BottomBar({
   return (
     <div className={styles.BottomBar}>
       <OriginPicker />
+      <VoiceCommandPanel />
       <TimePicker />
       <SessionRec />
       <GeoPositionPanel />
