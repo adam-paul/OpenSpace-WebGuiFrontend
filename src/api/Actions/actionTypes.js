@@ -132,7 +132,12 @@ const actionTypes = {
   addStoryTree: 'STORY_TREE_ADD',
   addStoryInfo: 'STORY_TREE_ADD_INFO',
   resetStoryInfo: 'STORY_TREE_RESET_INFO',
-  resetStoryTree: 'STORY_TREE_RESET'
+  resetStoryTree: 'STORY_TREE_RESET',
+
+  subscribeToVoiceCommand: 'SUBSCRIBE_TO_VOICE_COMMAND',
+  unsubscribeToVoiceCommand: 'UNSUBSCRIBE_TO_VOICE_COMMAND',
+  updateVoiceCommand: 'UPDATE_VOICE_COMMAND',
+  refreshVoiceCommand: 'REFRESH_VOICE_COMMAND',
 };
 
 export default actionTypes;

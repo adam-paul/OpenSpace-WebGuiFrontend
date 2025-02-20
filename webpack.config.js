@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const PublicPath = '/frontend/';
 
@@ -23,14 +24,19 @@ module.exports = {
     hot: true,
     static: {
       directory: resolve(__dirname, 'dist'),
-      publicPath: PublicPath
+      publicPath: PublicPath,
+      serveIndex: true,
+      watch: true
     },
     proxy: {
       '/': {
         target: 'http://localhost:4680',
         bypass(req, res, proxyOptions) {
-          if (req.originalUrl.indexOf('/frontend') === 0 ||
-              req.originalUrl.indexOf('/environment.js') === 0) {
+          if (req.originalUrl.indexOf('/frontend') === 0) {
+            return req.originalUrl;
+          }
+          if (req.originalUrl.indexOf('/environment.js') === 0) {
+            res.setHeader('Content-Type', 'application/javascript');
             return req.originalUrl;
           }
         }

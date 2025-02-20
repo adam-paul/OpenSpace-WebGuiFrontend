@@ -18,6 +18,7 @@ import skybrowser from './skybrowser';
 import time from './time';
 import userPanels from './userPanels';
 import version from './version';
+import voiceCommand from './voiceCommand';
 
 const middleware = applyMiddleware(
   // logger, // middleWare for logging state change
@@ -38,7 +39,8 @@ const middleware = applyMiddleware(
   userPanels,
   skybrowser,
   camera,
-  cameraPath
+  cameraPath,
+  voiceCommand
 );
 
 export default middleware;

@@ -17,6 +17,7 @@ import storyTree from './storyTree';
 import time from './time';
 import userPanels from './userPanels';
 import version from './version';
+import voiceCommand from './voiceCommand';
 
 // Add more reducers here
 const openspaceApp = (state = {}, action = {}) => {
@@ -41,7 +42,8 @@ const openspaceApp = (state = {}, action = {}) => {
     storyTree: storyTree(state.storyTree, action),
     version: version(state.version, action),
     userPanels: userPanels(state.userPanels, action),
-    missions: missions(state.missions, action)
+    missions: missions(state.missions, action),
+    voiceCommand: voiceCommand(state.voiceCommand, action)
   };
 };
 

@@ -453,3 +453,23 @@ export const removePropertyOwners = (data) => ({
   type: actionTypes.removePropertyOwners,
   payload: data
 });
+
+export const subscribeToVoiceCommand = () => ({
+  type: actionTypes.subscribeToVoiceCommand,
+  payload: {}
+});
+
+export const unsubscribeToVoiceCommand = () => ({
+  type: actionTypes.unsubscribeToVoiceCommand,
+  payload: {}
+});
+
+export const updateVoiceCommand = (data) => ({
+  type: actionTypes.updateVoiceCommand,
+  payload: data
+});
+
+export const refreshVoiceCommand = () => ({
+  type: actionTypes.refreshVoiceCommand,
+  payload: {}
+});
