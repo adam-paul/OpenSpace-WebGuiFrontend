@@ -138,6 +138,7 @@ const actionTypes = {
   unsubscribeToVoiceCommand: 'UNSUBSCRIBE_TO_VOICE_COMMAND',
   updateVoiceCommand: 'UPDATE_VOICE_COMMAND',
   refreshVoiceCommand: 'REFRESH_VOICE_COMMAND',
+  confirmTranscription: 'CONFIRM_TRANSCRIPTION',
 };
 
 export default actionTypes;

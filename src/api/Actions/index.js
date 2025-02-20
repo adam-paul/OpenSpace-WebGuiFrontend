@@ -455,13 +455,15 @@ export const removePropertyOwners = (data) => ({
 });
 
 export const subscribeToVoiceCommand = () => ({
-  type: actionTypes.subscribeToVoiceCommand,
-  payload: {}
+  type: actionTypes.subscribeToVoiceCommand
 });
 
 export const unsubscribeToVoiceCommand = () => ({
-  type: actionTypes.unsubscribeToVoiceCommand,
-  payload: {}
+  type: actionTypes.unsubscribeToVoiceCommand
+});
+
+export const refreshVoiceCommand = () => ({
+  type: actionTypes.refreshVoiceCommand
 });
 
 export const updateVoiceCommand = (data) => ({
@@ -469,7 +471,6 @@ export const updateVoiceCommand = (data) => ({
   payload: data
 });
 
-export const refreshVoiceCommand = () => ({
-  type: actionTypes.refreshVoiceCommand,
-  payload: {}
+export const confirmTranscription = () => ({
+  type: actionTypes.confirmTranscription
 });

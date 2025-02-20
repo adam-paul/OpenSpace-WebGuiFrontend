@@ -35,6 +35,15 @@ const refresh = () => {
   topic.talk({ event: 'refresh' });
 };
 
+const confirmTranscription = () => {
+  if (!topic) {
+    return;
+  }
+  topic.talk({ 
+    action: 'confirm_transcription'
+  });
+};
+
 const voiceCommand = (store) => (next) => (action) => {
   const result = next(action);
   const state = store.getState();
@@ -61,6 +70,9 @@ const voiceCommand = (store) => (next) => (action) => {
       break;
     case actionTypes.refreshVoiceCommand:
       refresh();
+      break;
+    case actionTypes.confirmTranscription:
+      confirmTranscription();
       break;
     default:
       break;

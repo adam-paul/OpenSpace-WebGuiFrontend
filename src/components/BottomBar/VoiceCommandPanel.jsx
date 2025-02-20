@@ -6,7 +6,8 @@ import {
   setPopoverVisibility, 
   subscribeToVoiceCommand, 
   unsubscribeToVoiceCommand,
-  updateVoiceCommand 
+  updateVoiceCommand,
+  confirmTranscription
 } from '../../api/Actions';
 import Button from '../common/Input/Button/Button';
 import Popover from '../common/Popover/Popover';
@@ -32,6 +33,17 @@ function VoiceCommandPanel() {
     dispatch(subscribeToVoiceCommand());
     return () => dispatch(unsubscribeToVoiceCommand());
   }, []);
+
+  // Add effect to handle success state
+  useEffect(() => {
+    if (voiceState.status === 'success') {
+      // Wait for the success message to be shown (matches the 2-second delay in C++)
+      const timer = setTimeout(() => {
+        clearTranscription();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [voiceState.status]);
 
   function togglePopover() {
     dispatch(setPopoverVisibility({
@@ -75,14 +87,15 @@ function VoiceCommandPanel() {
     }));
   };
 
-  const handleConfirm = async () => {
-    if (!isConnected || !luaApi || !voiceState.transcription) return;
+  const handleConfirm = () => {
+    if (!isConnected || !voiceState.transcription) return;
 
     try {
-      await luaApi.voice.executeCommand(voiceState.transcription);
-      clearTranscription();
+      // Just dispatch the confirmTranscription action - the middleware will handle the WebSocket
+      dispatch(confirmTranscription());
+      // Don't clear immediately - let the success state handler do it
     } catch (error) {
-      console.error('Failed to execute voice command:', error);
+      console.error('Failed to confirm transcription:', error);
     }
   };
 
@@ -104,6 +117,13 @@ function VoiceCommandPanel() {
                 Clear Error
               </Button>
             </>
+          ) : voiceState.status === 'success' ? (
+            <div className={styles.mainContent}>
+              <CenteredLabel className={styles.success}>
+                <MdCheck className={styles.icon} />
+                Command executed successfully!
+              </CenteredLabel>
+            </div>
           ) : voiceState.transcription ? (
             <>
               <div className={styles.mainContent}>
