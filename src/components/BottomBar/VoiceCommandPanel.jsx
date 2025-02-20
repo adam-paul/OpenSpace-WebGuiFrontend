@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { MdMic, MdStop, MdClear } from 'react-icons/md';
+import { MdMic, MdStop, MdClear, MdCheck } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { 
@@ -75,6 +75,17 @@ function VoiceCommandPanel() {
     }));
   };
 
+  const handleConfirm = async () => {
+    if (!isConnected || !luaApi || !voiceState.transcription) return;
+
+    try {
+      await luaApi.voice.executeCommand(voiceState.transcription);
+      clearTranscription();
+    } catch (error) {
+      console.error('Failed to execute voice command:', error);
+    }
+  };
+
   function popover() {
     return (
       <Popover
@@ -101,10 +112,16 @@ function VoiceCommandPanel() {
                   {voiceState.transcription}
                 </CenteredLabel>
               </div>
-              <Button onClick={clearTranscription} className={styles.clearButton}>
-                <MdClear className={styles.icon} />
-                Clear
-              </Button>
+              <div className={styles.buttonContainer}>
+                <Button onClick={handleConfirm} className={styles.confirmButton}>
+                  <MdCheck className={styles.icon} />
+                  Confirm
+                </Button>
+                <Button onClick={clearTranscription} className={styles.clearButton}>
+                  <MdClear className={styles.icon} />
+                  Clear
+                </Button>
+              </div>
             </>
           ) : (
             <div className={styles.mainContent}>
@@ -152,4 +169,4 @@ function VoiceCommandPanel() {
   );
 }
 
-export default VoiceCommandPanel; 
+export default VoiceCommandPanel;

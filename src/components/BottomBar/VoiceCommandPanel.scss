@@ -24,7 +24,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem; // Space for bottom buttons
   box-sizing: border-box;
 
   > * {
@@ -40,6 +40,17 @@
   &:hover {
     background: $ui-background-hover;
   }
+}
+
+.buttonContainer {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: calc(100% - 3rem); // Account for padding
 }
 
 .recording {
@@ -106,30 +117,44 @@
   font-size: 1.1rem;
 }
 
-.clearButton {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
+// Base button styles shared between clear and confirm
+%action-button {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  justify-content: center;
+  gap: 0.5rem; // Consistent spacing between icon and text
   padding: 0.5rem 1rem;
   border-radius: 4px;
-  background-color: var(--secondary-color);
-  color: var(--text-color);
   border: none;
   cursor: pointer;
   font-size: 0.9rem;
+  font-family: inherit; // Use the same font as the rest of the UI
+  line-height: 1.2;
   transition: background-color 0.2s;
-  max-width: calc(100% - 2rem);
-  box-sizing: border-box;
-
-  &:hover {
-    background-color: var(--secondary-color-hover);
-  }
+  min-width: 100px; // Ensure buttons have similar widths
+  height: 32px; // Fixed height for alignment
 
   .icon {
     font-size: 1rem;
   }
-} 
+}
+
+.clearButton {
+  @extend %action-button;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+
+  &:hover {
+    background-color: var(--secondary-color-hover);
+  }
+}
+
+.confirmButton {
+  @extend %action-button;
+  background-color: var(--primary-color, #4CAF50);
+  color: white;
+
+  &:hover {
+    background-color: var(--primary-color-hover, #45a049);
+  }
+}
