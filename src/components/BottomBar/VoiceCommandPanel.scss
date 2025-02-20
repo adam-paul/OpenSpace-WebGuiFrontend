@@ -1,12 +1,36 @@
 @import '../../styles/all';
 @import '../common/Popover/Popover';
 
+// Override Popover's max-width for our specific use case
+:global(.voice-command-popover) {
+  max-width: 400px !important;
+}
+
 .content {
-  padding: 1rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 200px;
+  min-height: 200px;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%; // Fill available width
+}
+
+.mainContent {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3rem;
+  box-sizing: border-box;
+
+  > * {
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
 
 .button {
@@ -36,7 +60,9 @@
 }
 
 .recordButton {
-  width: 100%;
+  width: auto;
+  min-width: 200px;
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,6 +70,7 @@
   padding: 0.75rem;
   border-radius: 4px;
   transition: all 0.2s ease;
+  box-sizing: border-box;
   
   &.recording {
     background-color: #ff4444;
@@ -57,10 +84,52 @@
 
 .icon {
   font-size: 1.2rem;
+  flex-shrink: 0;
 }
 
 .error {
   color: #ff4444;
   text-align: center;
   margin: 0.5rem 0;
+  width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+}
+
+.transcriptionText {
+  margin: 1rem 0;
+  width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.clearButton {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+  max-width: calc(100% - 2rem);
+  box-sizing: border-box;
+
+  &:hover {
+    background-color: var(--secondary-color-hover);
+  }
+
+  .icon {
+    font-size: 1rem;
+  }
 } 

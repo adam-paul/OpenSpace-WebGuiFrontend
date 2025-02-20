@@ -1,8 +1,13 @@
 import React, { useEffect } from 'react';
-import { MdMic, MdStop } from 'react-icons/md';
+import { MdMic, MdStop, MdClear } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setPopoverVisibility, subscribeToVoiceCommand, unsubscribeToVoiceCommand } from '../../api/Actions';
+import { 
+  setPopoverVisibility, 
+  subscribeToVoiceCommand, 
+  unsubscribeToVoiceCommand,
+  updateVoiceCommand 
+} from '../../api/Actions';
 import Button from '../common/Input/Button/Button';
 import Popover from '../common/Popover/Popover';
 import CenteredLabel from '../common/CenteredLabel/CenteredLabel';
@@ -60,42 +65,70 @@ function VoiceCommandPanel() {
     }
   };
 
+  const clearTranscription = () => {
+    // Update the state through Redux
+    dispatch(updateVoiceCommand({
+      type: 'voice_status',
+      status: 'idle',
+      transcription: '',
+      error: ''
+    }));
+  };
+
   function popover() {
     return (
       <Popover
         title="Voice Commands"
-        className={Picker.Popover}
+        className={`${Picker.Popover} voice-command-popover`}
         closeCallback={togglePopover}
       >
         <div className={styles.content}>
           {voiceState.error ? (
-            <CenteredLabel className={styles.error}>{voiceState.error}</CenteredLabel>
+            <>
+              <div className={styles.mainContent}>
+                <CenteredLabel className={styles.error}>{voiceState.error}</CenteredLabel>
+              </div>
+              <Button onClick={clearTranscription} className={styles.clearButton}>
+                <MdClear className={styles.icon} />
+                Clear Error
+              </Button>
+            </>
           ) : voiceState.transcription ? (
             <>
-              <CenteredLabel>Transcription:</CenteredLabel>
-              <CenteredLabel>{voiceState.transcription}</CenteredLabel>
+              <div className={styles.mainContent}>
+                <CenteredLabel>Transcription:</CenteredLabel>
+                <CenteredLabel className={styles.transcriptionText}>
+                  {voiceState.transcription}
+                </CenteredLabel>
+              </div>
+              <Button onClick={clearTranscription} className={styles.clearButton}>
+                <MdClear className={styles.icon} />
+                Clear
+              </Button>
             </>
           ) : (
-            <Button
-              onClick={voiceState.status === 'recording' ? stopRecording : startRecording}
-              className={`${styles.recordButton} ${voiceState.status === 'recording' ? styles.recording : ''}`}
-              disabled={voiceState.status === 'processing' || !isConnected || !luaApi}
-            >
-              {voiceState.status === 'recording' ? (
-                <>
-                  <MdStop className={styles.icon} />
-                  Stop Recording
-                </>
-              ) : (
-                <>
-                  <MdMic className={styles.icon} />
-                  {!isConnected ? 'Connecting...' : 
-                   !luaApi ? 'Loading...' :
-                   voiceState.status === 'processing' ? 'Processing...' : 
-                   'Start Recording'}
-                </>
-              )}
-            </Button>
+            <div className={styles.mainContent}>
+              <Button
+                onClick={voiceState.status === 'recording' ? stopRecording : startRecording}
+                className={`${styles.recordButton} ${voiceState.status === 'recording' ? styles.recording : ''}`}
+                disabled={voiceState.status === 'processing' || !isConnected || !luaApi}
+              >
+                {voiceState.status === 'recording' ? (
+                  <>
+                    <MdStop className={styles.icon} />
+                    Stop Recording
+                  </>
+                ) : (
+                  <>
+                    <MdMic className={styles.icon} />
+                    {!isConnected ? 'Connecting...' : 
+                     !luaApi ? 'Loading...' :
+                     voiceState.status === 'processing' ? 'Processing...' : 
+                     'Start Recording'}
+                  </>
+                )}
+              </Button>
+            </div>
           )}
           {voiceState.status === 'processing' && (
             <CenteredLabel>Processing audio...</CenteredLabel>
